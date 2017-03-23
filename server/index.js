@@ -168,7 +168,7 @@ router.post('/auth/register', function(req, res, next) {
       return res.status(500).json({ success: false, data: err });
     }
     // SQL Query > Select Data To Check If Email Already Exists
-    client.query("SELECT * FROM users WHERE email = '$1' ORDER BY id ASC",
+    client.query("SELECT * FROM users WHERE email = $1 ORDER BY id ASC",
       [data.email],
       function(err, result) {
         var user = result.rows[0];
@@ -216,7 +216,7 @@ router.post('/auth/reset', function(req, res) {
     charset: 'alphabetic'
   });
   pg.connect(connectionString, (error, client) => {
-    client.query("SELECT * FROM users WHERE email = '$1'", [email], function(err, result) {
+    client.query("SELECT * FROM users WHERE email = $1", [email], function(err, result) {
       var user = result.rows[0];
       if (!user) {
         return res.status(400).json({ error: 'Email does not match to any account.' });
